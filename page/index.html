@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+</head>
+<body>
+  
+    <div class="page-wrapper chiller-theme toggled">    
+      <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+        <i class="fas fa-bars"></i>
+      </a>
+      <nav id="sidebar" class="sidebar-wrapper">
+        <div class="sidebar-content">
+          <div class="sidebar-brand">
+            <a href="#">Phần mềm thu học phí</a>
+            <div id="close-sidebar">
+              <i class="fas fa-times"></i>
+            </div>
+          </div>
+      
+          
+          <!-- sidebar-search  -->
+          <div class="sidebar-menu">
+            <ul>
+              <li class="header-menu">
+                <span>Nội dung</span>
+              </li>
+              <li>
+                <a href="index.html">
+                  <i class="fa fa-tachometer-alt"></i>
+                  <span>Danh sách sinh viên</span>
+                </a>
+              </li>
+              <li>
+                <a href="page_price.html">
+                  <i class="fa fa-shopping-cart"></i>
+                  <span>Học phí</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <main class="page-content" style="padding-top: 0px;">
+        <ul class="nav justify-content-end mb-3" id="header">
+          <li class="nav-item">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Thêm sinh viên</button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="btn btn-secondary" onclick="importExcel()">Import Excel</button>
+            <input type="file" id="fileInput" accept=".xlsx" hidden />
+        </li>
+        
+          <li class="nav-item">
+            <button type="button" class="btn btn-info" onclick="exportExcelBtn()" id="exportExcelBtn">Export Excel</button>
+        </li>        
+        </ul>
+        <form class="form-inline" style="float: right;margin-right: 20px;">
+          <div class="form-group mx-sm-3 mb-2">
+            <label >Theo tên</label>
+            <input style="width: 250px;" type="text" class="form-control" id="nameStudent" name="nameStudent" placeholder="Nhập tên sinh viên cần tìm">
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label >Theo ngày</label>
+            <input style="width: 200px;" type="date" class="form-control" name="searchPaymentDate" placeholder="Nhập ngay dong">
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label>Sắp xếp theo</label>
+            <select name="sortAttribute" id="select" class="form-control">
+              <option value="">Chọn thuộc tính</option>
+              <option value="paymentDate">Ngày đóng</option>
+              <option value="price">Tiền đóng</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary mb-2" onclick="searchPro()">Tìm kiếm</button>
+        </form>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Tên sinh viên</th>
+              <th scope="col">Giới tính</th>
+              <th scope="col">Số tiền đã đóng</th>
+              <th scope="col">Trạng thái</th>
+              <th scope="col">Ngày đóng</th>
+              <th scope="col">Ngày sinh</th>
+              <th scope="col">Địa chỉ</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="studentList">
+
+          </tbody>
+        </table>
+      </main>
+   
+</div>
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Thêm sinh viên</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="studentForm">
+          <div class="modal-body">
+            <input type="number" name="id" hidden>
+            <div class="form-group">
+              <label>Tên sinh viên</label>
+              <input type="text" class="form-control" name="name" placeholder="Nhập tên sinh viên">
+            </div>
+              
+            <div class="form-group">
+              <label>Giới tính</label>
+              <select name="gender" id="select" class="form-control">
+                <option value="">Chọn giới tính</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              </select>
+            </div>
+    
+            <div class="form-group">
+              <label>Số tiền đã đóng</label>
+              <input type="text" class="form-control" name="price" placeholder="Nhập số tiền đã đóng">
+            </div>
+            <div class="form-group">
+              <label>Ngày đóng</label>
+              <input type="date" class="form-control" name="paymentDate"">
+            </div>
+            <div class="form-group">
+              <label>Trạng thái</label>
+              <select name="status" id="select" class="form-control">
+                <option value="">Chọn trạng thái</option>
+                <option value="Đã hoàn thành">Đã hoàn thành</option>
+                <option value="Chưa hoàn thành">Chưa hoàn thành</option>
+              </select>
+            </div>
+
+
+            <div class="form-group">
+              <label>Ngày sinh</label>
+              <input type="date" class="form-control" name="dob" placeholder="Nhập tên học sinh">
+            </div>
+           
+            <div class="form-group">
+              <label>Địa chỉ</label>
+              <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ">
+            </div>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="saveStudent">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    label{
+      margin-right: 20px;
+    }
+  </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/formToObj.js"></script>
+
+    <script>
+    document.getElementById('saveStudent').addEventListener('click', async function() {
+      let formValue =formToObject("#studentForm")
+      formValue.id = parseInt(formValue.id)
+      formValue.price = parseInt(formValue.price)
+      try {
+          const response = await fetch('http://localhost:3000/addStudent', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(formValue)
+          });
+      
+          if (response.ok) {
+              alert('Sinh viên đã được thêm thành công!');
+              $('#exampleModal').modal('hide');
+          } else {
+              alert('Có lỗi xảy ra khi thêm sinh viên.');
+          }
+      } catch (error) {
+          console.error(error);
+      }
+    });
+
+
+
+    
+  fetch(`http://localhost:3000`)
+    .then(response => response.json())
+    .then(data => {
+      let id =null
+      const tableData = document.getElementById('studentList');
+      tableData.innerHTML = ''; 
+      for (let i = 0; i < data.length; i++) {
+        let student = data[i];
+        let date = new Date(student.dob);
+        let formattedDob = formatDate(date)
+
+
+        let dates = new Date(student.paymentDate);
+        let formattedDate = formatDate(dates)
+        id =student.id
+        let row = `<tr>
+          <th scope="row">${i + 1}</th>
+          <td>${student.name}</td>
+          <td>${student.gender}</td>
+          <td>${formatCurrency(student.price)}</td>
+          <td>${student.status}</td>
+          <td>${formattedDate}</td>
+          <td>${formattedDob}</td>
+          <td>${student.address}</td>
+          <td>
+            <a href="detail_student.html?student=${ encodeURIComponent(JSON.stringify(student))}" type="button" class="btn btn-primary btn-sm">
+              <i class="fas fa-edit"></i> Chi tiết
+            </a>
+            
+            <button type="button" class="btn btn-danger btn-sm"  data-name="${student.id}" onclick="deleteStudent(${student.id})">
+                <i class="fas fa-trash-alt"></i> Xóa
+            </button>
+        
+            </td>
+            </tr>`;
+        tableData.innerHTML += row;
+      }
+      document.querySelector('input[name="id"]').value = id+1
+    })
+    .catch(error => console.error('Error fetching JSON:', error));
+
+   
+
+    async function deleteStudent(id) {
+      try {
+        const response = await fetch(`http://localhost:3000/deleteStudentById/${id}`, {
+          method: 'DELETE'
+        });
+    
+        if (response.ok) {
+          alert('Xóa thành công!');
+        } else {
+          alert('Có lỗi xảy ra khi xóa sinh viên.');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Có lỗi xảy ra khi xóa sinh viên.');
+      }
+    }
+    
+    function exportExcelBtn() {
+      fetch('http://localhost:3000/export-students')
+          .then(response => {
+              if (response.ok) {
+                  return response.blob();  // Nhận phản hồi dưới dạng blob
+              } else {
+                  throw new Error('Lỗi khi tải file.');
+              }
+          })
+          .then(blob => {
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'students_list.xlsx';
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              window.URL.revokeObjectURL(url);  // Giải phóng URL object sau khi tải xong
+          })
+          .catch(error => {
+              console.error('Lỗi:', error);
+              alert('Không thể xuất file Excel.');
+          });
+  }
+  
+  
+  function importExcel() {
+    const fileInput = document.getElementById('fileInput');
+    fileInput.addEventListener('change', async () => {
+        const file = fileInput.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('http://localhost:3000/read', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Import successful:', data);
+                } else {
+                    console.error('Error importing file:', await response.text());
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    });
+    fileInput.click();
+}
+
+function searchPro() {
+  const name = document.getElementById('nameStudent').value.toLowerCase();
+  const paymentDate = document.querySelector('input[name="searchPaymentDate"]').value
+  const sortAttribute = document.querySelector('select[name="sortAttribute"]').value
+  let path
+  
+  if(name !== ""){
+    path = `http://localhost:3000/findByName/${name}`
+  }else if(paymentDate !== ""){
+    path = `http://localhost:3000/findByPaymentDate/${paymentDate}`
+  }else{
+    if(sortAttribute === "price"){
+      path = `http://localhost:3000/sortByPrice`
+    }else{
+       path = `http://localhost:3000/sortByDate`
+    }
+  }
+  fetch(path)
+    .then(response => response.json())
+    .then(data => {
+      const tableData = document.getElementById('studentList');
+      tableData.innerHTML = ''; 
+      for (let i = 0; i < data.length; i++) {
+        let student = data[i];
+        let date = new Date(student.dob);
+        let formattedDob = formatDate(date)
+
+
+        let dates = new Date(student.paymentDate);
+        let formattedDate = formatDate(dates)
+        id =student.id
+        let row = `<tr>
+          <th scope="row">${i + 1}</th>
+          <td>${student.name}</td>
+          <td>${student.gender}</td>
+          <td>${formatCurrency(student.price)}</td>
+          <td>${student.status}</td>
+          <td>${formattedDate}</td>
+          <td>${formattedDob}</td>
+          <td>${student.address}</td>
+          <td>
+            <a href="detail_student.html?student=${ encodeURIComponent(JSON.stringify(student))}" type="button" class="btn btn-primary btn-sm">
+              <i class="fas fa-edit"></i> Chi tiết
+            </a>
+            
+            <button type="button" class="btn btn-danger btn-sm"  data-name="${student.id}" onclick="deleteStudent(${student.id})">
+                <i class="fas fa-trash-alt"></i> Xóa
+            </button>
+        
+            </td>
+            </tr>`;
+        tableData.innerHTML += row;
+      }
+    })
+    .catch(error => console.error('Error fetching JSON:', error));
+}
+
+
+  </script>
+
+</body>
+</html>

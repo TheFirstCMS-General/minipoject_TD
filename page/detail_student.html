@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+</head>
+<body>
+    <div class="page-wrapper chiller-theme toggled">
+      <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+        <i class="fas fa-bars"></i>
+      </a>
+      <nav id="sidebar" class="sidebar-wrapper">
+        <div class="sidebar-content">
+          <div class="sidebar-brand">
+            <a href="#">Phần mềm thu học phí</a>
+            <div id="close-sidebar">
+              <i class="fas fa-times"></i>
+            </div>
+          </div>
+      
+          
+          <!-- sidebar-search  -->
+          <div class="sidebar-menu">
+            <ul>
+              <li class="header-menu">
+                <span>Nội dung</span>
+              </li>
+              <li>
+                <a href="index.html">
+                  <i class="fa fa-tachometer-alt"></i>
+                  <span>Danh sách sinh viên</span>
+                </a>
+              </li>
+              <li>
+                <a href="page_price.html">
+                  <i class="fa fa-shopping-cart"></i>
+                  <span>Học phí</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <main class="page-content" style="padding-top: 0px;">
+        <ul class="nav justify-content-end mb-3" id="header">
+          <li class="nav-item">
+            <button type="button" class="btn btn-secondary">Import Excel</button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="btn btn-info">Export Excel</button>
+          </li>
+        </ul>
+          <form class="updateStudent">
+            <h3>Thông tin sinh viên</h3>
+            <input type="text" name="id" hidden>
+            <div class="form-group">
+              <label>Tên sinh viên</label>
+              <input type="text" class="form-control" name="name" placeholder="Nhập tên sinh viên">
+            </div>
+    
+            <div class="form-group">
+              <label>Giới tính</label>
+              <select name="gender" id="select" class="form-control">
+                <option value="">Chọn giới tính</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+              </select>
+            </div>
+    
+            <div class="form-group">
+              <label>Số tiền đã đóng</label>
+              <input type="text" class="form-control" name="price" placeholder="Nhập số tiền đã đóng" disabled>
+            </div>
+    
+            <div class="form-group">
+              <label>Trạng thái</label>
+              <input type="text" class="form-control" name="status" value="Hoàn thành" disabled>
+            </div>
+            <div class="form-group">
+              <label>Ngày đóng</label>
+              <input disabled type="date" class="form-control" name="date" placeholder="Nhập tên học sinh">
+            </div>
+            <div class="form-group">
+              <label>Ngày sinh</label>
+              <input type="date" class="form-control" name="dob" placeholder="Nhập tên học sinh">
+            </div>
+            <div class="form-group">
+              <label>Địa chỉ</label>
+              <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ">
+            </div>
+            <div class="form-group">
+              <button type="button" class="btn btn-primary" onclick="updateStudent()">Cap nhat</button>
+            </div>
+
+          </form>
+
+          <form class="addFee">
+            <div class="form-group">
+              <div class="row">
+                <input type="text" name="student_id" hidden>
+                <div class="col-10">
+                  <select name="fee_id" id="selectFee" class="form-control">
+                    <option value="">Chọn hoc phi</option>
+                  </select>
+                </div>
+                <div class="col-2"> <button type="button" class="btn btn-primary" onclick="addFeeToStudent()">Them hoc phi</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Đợt</th>
+              <th scope="col">Số tiền</th>
+              <th scope="col">Trạng thái</th>
+            
+            </tr>
+          </thead>
+          <tbody id="list">
+            
+          </tbody>
+        </table>
+      </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js//formToObj.js"></script>
+    <script>
+      function renderStudent() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let student = JSON.parse(urlParams.get("student"))
+        let otpGender = `<option value="${student.gender}">${student.gender}</option>
+                          <option value="">Chọn giới tính</option>
+                          <option value="Nam">Nam</option>
+                          <option value="Nữ">Nữ</option>` ;
+        
+        document.querySelector('input[name="id"]').value = student.id
+        document.querySelector('input[name="name"]').value = student.name
+        document.querySelector('input[name="date"]').value = student.date
+        document.querySelector('select[name="gender"]').innerHTML = otpGender
+        document.querySelector('input[name="price"]').value = student.price
+        document.querySelector('input[name="status"]').value = student.status
+        document.querySelector('input[name="dob"]').value = student.dob
+        document.querySelector('input[name="address"]').value = student.address
+        document.querySelector('input[name="student_id"]').value = student.id
+      }
+
+      renderStudent()
+      async function renderFee() {
+         fetch('http://localhost:3000/getAllFee')
+            .then(response => response.json())
+            .then(data => {
+                const selectFee = document.getElementById('selectFee');
+                let html = `                    <option value="">Chọn hoc phi</option>`
+                for (let i = 0; i < data.length; i++) {
+                  let fee = data[i];
+                   html+= `<option value="${fee.id}">${fee.name} - ${formatCurrency(fee.total)} - ${fee.number} dot</option>`
+                }
+                selectFee.innerHTML = html
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+        
+      }
+      renderFee()
+      async function updateStudent(){
+        let formValue =formToObject(".updateStudent")
+        formValue.id = parseInt(formValue.id)
+        formValue.price = parseInt(formValue.price)
+        try {
+            const response = await fetch('http://localhost:3000/updateStudent', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formValue)
+            });
+        
+            if (response.ok) {
+                window.location.href=`/page/detail_student.html?student=${JSON.stringify(formValue)}`
+            } else {
+                alert('Có lỗi xảy ra');
+            }
+        } catch (error) {
+            console.error(error);
+       }
+      }
+      async function addFeeToStudent() {
+        let formValue = formToObject(".addFee")
+        formValue.student_id = parseInt(formValue.student_id)
+        formValue.fee_id = parseInt(formValue.fee_id)
+        try {
+          const response = await fetch('http://localhost:3000/addPaymentDeadline_student', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formValue)
+          });
+              
+          if (response.ok) {
+            alert('Thêm thành công!');
+            $('#exampleModal').modal('hide');
+          } else {
+            alert('Có lỗi xảy ra khi thêm');
+          }
+        } catch (error) {
+        console.error(error);
+        }
+      }
+
+      async function renderPaymentDeadline() {
+        let student_id = document.querySelector('input[name="student_id"]').value
+        fetch('http://localhost:3000/getAllPaymentDeadline_student/'+student_id)
+            .then(response => response.json())
+            .then(data => {
+                let id = null;
+                const tableData = document.getElementById('list');
+                tableData.innerHTML = '';
+                for (let i = 0; i < data.length; i++) {
+                    let valueDate = data[i];
+                    id = valueDate.id
+                    let row = `<tr>
+                              <th scope="row">${i+1}</th>
+                              <td>${valueDate.name}</td>
+                              <td>${formatCurrency(valueDate.price)}
+                                </td>
+                              <td>
+                                <select name="status" id="selectStatus" class="form-control">
+                                    <option value="">${valueDate.status}</option>
+                                    <option value="Đã hoàn thành">Đã hoàn thành</option>
+                                  </select>
+                              </td>  
+                          </tr>`;
+                    tableData.innerHTML += row;
+                }
+                document.querySelector('input[name="id"]').value = id+1
+                document.querySelector('input[name="name"]').value = id+1
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+      }
+      async function saveDetailFee(){
+              let formValue =formToObject("#detailFeeForm")
+              formValue.id = parseInt(formValue.id)
+              formValue.fee_id = parseInt(formValue.fee_id)
+              formValue.price = parseInt(formValue.price)
+              try {
+                  const response = await fetch('http://localhost:3000/addPaymentDeadlain', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(formValue)
+                  });
+              
+                  if (response.ok) {
+                      alert('Dot dong đã được thêm thành công!');
+                      $('#exampleModal').modal('hide');
+                  } else {
+                      alert('Có lỗi xảy ra khi thêm');
+                  }
+              } catch (error) {
+                  console.error(error);
+              }
+            }
+            renderPaymentDeadline()
+    </script>
+  
+</body>
+</html>
