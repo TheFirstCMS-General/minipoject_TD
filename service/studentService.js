@@ -40,7 +40,7 @@ async function addStudent(student){
 
     await fs.writeFile(
         pathStudentJson,
-        JSON.stringify(arrayStudent),
+        JSON.stringify(arrayStudent, null, 2),
         err => {
             if (err) throw err;
             console.log("Done writing");
@@ -115,8 +115,14 @@ async function importExcel(filePath) {
 async function importData(filePath) {
     try {
         const newData = await importExcel(filePath);
+        let array=[]
+        for(let i = 0 ; i < newData.length;i++){
+            let data = newData[i]
+            data.price = parseInt(data.price)
+            array.push(data)
+        }
         const currentData = await getStudent();
-        const updatedData = currentData.concat(newData);
+        const updatedData = currentData.concat(array);
         await fs.writeFile(pathStudentJson, JSON.stringify(updatedData, null, 2), 'utf8');
         console.log('Thành công');
     } catch (error) {

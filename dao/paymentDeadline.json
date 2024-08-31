@@ -2,43 +2,36 @@
   {
     "id": 1,
     "name": "1",
-    "price": 112312,
-    "deadline": "2024-08-09",
+    "price": 4000000,
+    "deadline": "2024-08-06",
     "fee_id": 1
   },
   {
     "id": 2,
     "name": "2",
-    "price": 123131,
+    "price": 6000000,
     "deadline": "2024-08-23",
     "fee_id": 1
   },
   {
     "id": 3,
     "name": "1",
-    "price": 12312,
-    "deadline": "2024-08-06",
+    "price": 9000000,
+    "deadline": "2024-08-01",
     "fee_id": 2
   },
   {
     "id": 4,
     "name": "2",
-    "price": 123131,
-    "deadline": "2024-08-08",
+    "price": 9000000,
+    "deadline": "2024-08-21",
     "fee_id": 2
   },
   {
     "id": 5,
-    "name": "1",
-    "price": 123131,
-    "deadline": "2024-08-07",
-    "fee_id": 3
-  },
-  {
-    "id": 6,
-    "name": "2",
-    "price": 567,
-    "deadline": "2024-08-09",
-    "fee_id": 3
+    "name": "3",
+    "price": 9000000,
+    "deadline": "2024-09-30",
+    "fee_id": 2
   }
 ]

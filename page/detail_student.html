@@ -82,7 +82,7 @@
             </div>
             <div class="form-group">
               <label>Ngày đóng</label>
-              <input disabled type="date" class="form-control" name="date" placeholder="Nhập tên học sinh">
+              <input  type="date" class="form-control" name="paymentDate" placeholder="Nhập tên học sinh">
             </div>
             <div class="form-group">
               <label>Ngày sinh</label>
@@ -93,7 +93,7 @@
               <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ">
             </div>
             <div class="form-group">
-              <button type="button" class="btn btn-primary" onclick="updateStudent()">Cap nhat</button>
+              <button type="button" class="btn btn-primary" onclick="updateStudent()">Cập nhật</button>
             </div>
 
           </form>
@@ -104,10 +104,10 @@
                 <input type="text" name="student_id" hidden>
                 <div class="col-10">
                   <select name="fee_id" id="selectFee" class="form-control">
-                    <option value="">Chọn hoc phi</option>
+                    <option value="">Chọn học phí</option>
                   </select>
                 </div>
-                <div class="col-2"> <button type="button" class="btn btn-primary" onclick="addFeeToStudent()">Them hoc phi</button>
+                <div class="col-2"> <button type="button" class="btn btn-primary" onclick="addFeeToStudent()">Thêm học phí</button>
                 </div>
               </div>
             </div>
@@ -145,7 +145,7 @@
         
         document.querySelector('input[name="id"]').value = student.id
         document.querySelector('input[name="name"]').value = student.name
-        document.querySelector('input[name="date"]').value = student.date
+        document.querySelector('input[name="paymentDate"]').value = student.paymentDate
         document.querySelector('select[name="gender"]').innerHTML = otpGender
         document.querySelector('input[name="price"]').value = student.price
         document.querySelector('input[name="status"]').value = student.status
@@ -160,10 +160,10 @@
             .then(response => response.json())
             .then(data => {
                 const selectFee = document.getElementById('selectFee');
-                let html = `                    <option value="">Chọn hoc phi</option>`
+                let html = `                    <option value="">Chọn học phí</option>`
                 for (let i = 0; i < data.length; i++) {
                   let fee = data[i];
-                   html+= `<option value="${fee.id}">${fee.name} - ${formatCurrency(fee.total)} - ${fee.number} dot</option>`
+                   html+= `<option value="${fee.id}">${fee.name} - ${formatCurrency(fee.total)} - ${fee.number} đợt</option>`
                 }
                 selectFee.innerHTML = html
             })
@@ -225,19 +225,19 @@
                 const tableData = document.getElementById('list');
                 tableData.innerHTML = '';
                 for (let i = 0; i < data.length; i++) {
-                    let valueDate = data[i];
-                    let dates = new Date(valueDate.deadline);
+                    let valueData = data[i];
+                    let dates = new Date(valueData.deadline);
                     let formattedDate = formatDate(dates)
                     let row = `<tr >
                               <th scope="row">${i+1}</th>
-                              <td>${valueDate.name}</td>
-                              <td>${formatCurrency(valueDate.price)}
+                              <td>${valueData.name}</td>
+                              <td>${formatCurrency(valueData.price)}
                                 </td>
                               <td>${formattedDate}
                                 </td>
                               <td>
-                                  <select name="status" id="selectStatus_${i+1}" class="form-control" onchange='updatePaymentDeadline_student(${JSON.stringify(valueDate)},${i+1})'>
-                                    <option value="">${valueDate.status}</option>
+                                  <select name="status" id="selectStatus_${i+1}" class="form-control" onchange='updatePaymentDeadline_student(${JSON.stringify(valueData)},${i+1})'>
+                                    <option value="">${valueData.status}</option>
                                     <option value="Đã hoàn thành">Đã hoàn thành</option>
                                   </select>
                               </td>  

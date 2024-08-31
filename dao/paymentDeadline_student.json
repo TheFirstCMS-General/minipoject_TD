@@ -12,7 +12,27 @@
   {
     "student_id": 2,
     "paymentDeadline_id": 3,
+    "status": "Đã hoàn thành"
+  },
+  {
+    "student_id": 2,
+    "paymentDeadline_id": 4,
     "status": "Chưa hoàn thành"
+  },
+  {
+    "student_id": 2,
+    "paymentDeadline_id": 5,
+    "status": "Chưa hoàn thành"
+  },
+  {
+    "student_id": 4,
+    "paymentDeadline_id": 1,
+    "status": "Đã hoàn thành"
+  },
+  {
+    "student_id": 4,
+    "paymentDeadline_id": 2,
+    "status": "Đã hoàn thành"
   },
   {
     "student_id": 5,
@@ -22,6 +42,21 @@
   {
     "student_id": 5,
     "paymentDeadline_id": 2,
+    "status": "Chưa hoàn thành"
+  },
+  {
+    "student_id": 3,
+    "paymentDeadline_id": 3,
+    "status": "Đã hoàn thành"
+  },
+  {
+    "student_id": 3,
+    "paymentDeadline_id": 4,
+    "status": "Đã hoàn thành"
+  },
+  {
+    "student_id": 3,
+    "paymentDeadline_id": 5,
     "status": "Chưa hoàn thành"
   }
 ]

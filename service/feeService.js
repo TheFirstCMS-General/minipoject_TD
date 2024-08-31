@@ -2,10 +2,10 @@
 const fs = require('fs').promises;
 const { get } = require('https');
 const path = require('path');
-let pathStudentJson = "../dao/fee.json"
+let pathJson = "../dao/fee.json"
 
 async function getFee() {
-    const jsonFilePath = path.join(__dirname, pathStudentJson);
+    const jsonFilePath = path.join(__dirname, pathJson);
 
     try {
         const data = await fs.readFile(jsonFilePath, 'utf8');
@@ -17,12 +17,12 @@ async function getFee() {
     }
 }
 async function addFee(fee){
-    let arrayStudent = await getFee();
-    arrayStudent.push(fee);
+    let arrayFee = await getFee();
+    arrayFee.push(fee);
 
     await fs.writeFile(
-        pathStudentJson,
-        JSON.stringify(arrayStudent),
+        pathJson,
+        JSON.stringify(arrayFee, null, 2),
         err => {
             if (err) throw err;
             console.log("Done writing");
@@ -35,7 +35,7 @@ async function deleteFee(feeId) {
         let arrayFee = await getFee();
         const filterFee = arrayFee.filter(fee => fee.id !== parseInt(feeId)); // Chuyển đổi feeId
         await fs.writeFile(
-            pathStudentJson,
+            pathJson,
             JSON.stringify(filterFee, null, 2),
             'utf8'
         );

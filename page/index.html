@@ -163,6 +163,7 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" id="saveStudent">Save changes</button>
         </div>
+        <div></div>
       </div>
     </div>
   </div>
@@ -259,14 +260,17 @@
         
         //coi nhu ngay hien tai
         let demoDate = new Date("2024-08-20");
-
+        let demoDateThreeDay = new Date(demoDate);
+        demoDateThreeDay.setDate(demoDate.getDate() + 3);
+        const threeDaysInMillis = 3 * 24 * 60 * 60 * 1000;
+        const oneDayInMillis = 1 * 24 * 60 * 60 * 1000;
         for (let i = 0; i < paymentDeadline_students.length; i++) {
             let valueData = paymentDeadline_students[i];
             let deadline = new Date(valueData.deadline);
-            let deadlineThreeDay = new Date(deadline);
-            deadlineThreeDay.setDate(deadline.getDate() - 3);
+           
+         
 
-            if (valueData.status === "Chưa hoàn thành" && demoDate.getTime() === deadlineThreeDay.getTime()) {
+            if (valueData.status === "Chưa hoàn thành" && (demoDateThreeDay.getTime() - deadline.getTime()) <= threeDaysInMillis &&  (demoDateThreeDay.getTime() - deadline.getTime()) >= 0) {
                 return "yellow"; 
             } else if (valueData.status === "Chưa hoàn thành" && demoDate > deadline) {
                 return "red"; 
