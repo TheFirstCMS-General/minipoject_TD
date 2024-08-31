@@ -81,7 +81,7 @@
           </div>
           <div class="modal-body">
               <form id="detailFeeForm">
-                <input type="number" name="id" value="1" >
+                <input type="number" name="id" value="1" hidden>
                   <div class="form-group">
                       <label>Đợt đóng </label>
                       <input type="number" class="form-control" name="name" value="1" disabled>
@@ -165,8 +165,9 @@
                                 </td>
                                 </tr>`;
                     tableData.innerHTML += row;
+                    document.querySelector('input[name="name"]').value = parseInt(detailFee.name)+1
+
                 }
-                document.querySelector('input[name="name"]').value = id+1
             })
             .catch(error => console.error('Error fetching JSON:', error));
 
