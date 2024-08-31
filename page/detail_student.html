@@ -118,6 +118,7 @@
               <th scope="col">STT</th>
               <th scope="col">Đợt</th>
               <th scope="col">Số tiền</th>
+              <th scope="col">Hạn đóng</th>
               <th scope="col">Trạng thái</th>
             
             </tr>
@@ -225,10 +226,14 @@
                 tableData.innerHTML = '';
                 for (let i = 0; i < data.length; i++) {
                     let valueDate = data[i];
+                    let dates = new Date(valueDate.deadline);
+                    let formattedDate = formatDate(dates)
                     let row = `<tr >
                               <th scope="row">${i+1}</th>
                               <td>${valueDate.name}</td>
                               <td>${formatCurrency(valueDate.price)}
+                                </td>
+                              <td>${formattedDate}
                                 </td>
                               <td>
                                   <select name="status" id="selectStatus_${i+1}" class="form-control" onchange='updatePaymentDeadline_student(${JSON.stringify(valueDate)},${i+1})'>
@@ -242,29 +247,6 @@
             })
             .catch(error => console.error('Error fetching JSON:', error));
       }
-      // async function saveDetailFee(){
-      //         let formValue =formToObject("#detailFeeForm")
-      //         formValue.id = parseInt(formValue.id)
-      //         formValue.fee_id = parseInt(formValue.fee_id)
-      //         formValue.price = parseInt(formValue.price)
-      //         try {
-      //             const response = await fetch('http://localhost:3000/addPaymentDeadlain', {
-      //                 method: 'POST',
-      //                 headers: {
-      //                     'Content-Type': 'application/json'
-      //                 },
-      //                 body: JSON.stringify(formValue)
-      //             });
-              
-      //             if (response.ok) {
-      //                 alert('Dot dong đã được thêm thành công!'); 
-      //             } else {
-      //                 alert('Có lỗi xảy ra khi thêm');
-      //             }
-      //         } catch (error) {
-      //             console.error(error);
-      //         }
-      //       }
             renderPaymentDeadline()
 
             async function updatePaymentDeadline_student(data,i) {
