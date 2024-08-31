@@ -1,16 +1,1 @@
-[
-  {
-    "id": 1,
-    "name": "DH11_HK1",
-    "number": 5,
-    "total": 1000000000,
-    "deadline": "2024-07-30"
-  },
-  {
-    "id": 2,
-    "name": "DH11_HK2",
-    "total": 1435623,
-    "number": "2",
-    "deadline": "2024-08-08"
-  }
-]
+[{"id":1,"name":"HK1","total":1435623123,"number":"2","deadline":"2024-08-30"},{"id":2,"name":"HK2","total":10,"number":"2","deadline":"2024-08-21"}]

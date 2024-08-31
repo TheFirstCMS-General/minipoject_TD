@@ -84,7 +84,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="feeForm">
-                        <input name="id" hidden="hidden">
+                        <input name="id" value="1" hidden="hidden">
                         <div class="form-group">
                             <label>Tên học phí</label>
                             <input type="text" class="form-control" name="name" placeholder="Nhập tên học phí">
@@ -120,7 +120,7 @@
         fetch('http://localhost:3000/getAllFee')
             .then(response => response.json())
             .then(data => {
-                let id = null;
+                let id = 0;
                 const tableData = document.getElementById('feeList');
                 tableData.innerHTML = '';
                 for (let i = 0; i < data.length; i++) {

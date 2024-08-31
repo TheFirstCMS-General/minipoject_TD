@@ -8,7 +8,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { getStudent,addStudent,deleteStudentById,exportExcel,importData , updateStudent,searchStudentByName,sortStudentByDate,searchStudentByPrice,searchStudentByPaymentDate } = require('../service/studentService.js');
 const { getFee,addFee, deleteFee , updateFee} = require('../service/feeService.js');
-const { getPaymentDeadline, addPaymentDeadline,deletePaymentDeadlineById,updatePaymentDeadline } = require('../service/paymentDeadline.js');
+const { getPaymentDeadline, addPaymentDeadline,deletePaymentDeadlineById,updatePaymentDeadline, getMaxId } = require('../service/paymentDeadline.js');
 const { getAllPaymentDeadline_student, addPaymentDeadline_student, updatePaymentDeadline_student } = require('../service/paymentDeadline_student.js');
 
 const app = express();
@@ -182,6 +182,14 @@ app.get('/getAllPaymentDeadlain/:feeId', async (req, res) => {
     try {
         const fee_id = req.params.feeId;
         const message = await getPaymentDeadline(fee_id);
+        res.json(message);
+    } catch (error) {
+        res.status(500).send('Error reading JSON data');
+    }
+});
+app.get('/getPaymentDeadlainMaxId', async (req, res) => {
+    try {
+        const message = await getMaxId();
         res.json(message);
     } catch (error) {
         res.status(500).send('Error reading JSON data');

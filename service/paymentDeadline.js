@@ -9,6 +9,7 @@ async function getPaymentDeadline(fee_id) {
     const jsonFilePath = path.join(__dirname, pathJson);
     
     try {
+
         const data = await fs.readFile(jsonFilePath, 'utf8');
         if(data != ""){
         const jsonData = JSON.parse(data);
@@ -89,4 +90,21 @@ async function getAll() {
         throw err;
     }
 }
-module.exports = { getPaymentDeadline, addPaymentDeadline,deletePaymentDeadlineById,updatePaymentDeadline};
+
+async function getMaxId() {
+    const jsonFilePath = path.join(__dirname, pathJson);
+
+    try {
+        const data = await fs.readFile(jsonFilePath, 'utf8');
+        if(data != ""){
+            const jsonData = JSON.parse(data);
+            const maxId = jsonData[(jsonData.length-1)].id
+        return {"id" : parseInt(maxId) +1};
+        }
+        return null;
+    } catch (err) {
+        console.error('Error reading or parsing file:', err);
+        throw err;
+    }
+}
+module.exports = { getPaymentDeadline, addPaymentDeadline,deletePaymentDeadlineById,updatePaymentDeadline, getMaxId};

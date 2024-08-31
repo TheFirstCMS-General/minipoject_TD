@@ -125,7 +125,6 @@ async function addPaymentDeadline_student(paymentDeadline_student){
 
 async function updateStatusStudent(student_id,paymentDeadline_id,price) {
     let  arrayPaymentDeadline_student = await findAll()
-    let filterArrPaymentDeadline_student = arrayPaymentDeadline_student.filter(obj => obj.student_id === student_id && obj.paymentDeadline_id === paymentDeadline_id)
  
     let arrayStudent = await getStudent(); 
     const index = arrayStudent.findIndex(obj => obj.id === student_id);
@@ -140,16 +139,16 @@ async function updateStatusStudent(student_id,paymentDeadline_id,price) {
         );
         
         let  arrayPaymentDeadline_student1 = await findAll()
-        let filterArrPaymentDeadline_student1 = arrayPaymentDeadline_student1.filter(obj => obj.student_id === student_id && obj.paymentDeadline_id === paymentDeadline_id)
+        let filterArrPaymentDeadline_student1 = arrayPaymentDeadline_student1.filter(obj => obj.student_id === student_id)
      
-        const checkStatusFees1 = filterArrPaymentDeadline_student1.find(obj => obj === "Chưa hoàn thành")
+        const checkStatusFees1 = filterArrPaymentDeadline_student1.find(obj => obj.status === "Chưa hoàn thành");
         let statusStudent = "Đã hoàn thành"
         if(checkStatusFees1 !== undefined){
             statusStudent = "Chưa hoàn thành"
         }
     
         arrayStudent[index].status = statusStudent;
-        let a =  arrayStudent[index]
+        let b =  arrayStudent[index]
         await fs.writeFile(
             "../dao/student.json",
             JSON.stringify(arrayStudent, null, 2) 
@@ -175,21 +174,21 @@ async function getStudent() {
     }
 }
 async function updatePaymentDeadline_student(newValue) {
-    let arrayFee = await findByStudentId(newValue.student_id); 
-    const index = arrayFee.findIndex(obj => obj.paymentDeadline_id === newValue.paymentDeadline_id );
+    let arrayFee = await findAll(); 
+    const index = arrayFee.findIndex(obj => obj.paymentDeadline_id === newValue.paymentDeadline_id && obj.student_id === newValue.student_id );
 
     if (index !== -1) {
         arrayFee[index].status = newValue.status;
-        let a=  arrayFee[index]
         await fs.writeFile(
             pathJson,
             JSON.stringify(arrayFee, null, 2) 
         );
-        console.log("Đã cập nhật thành công");
+        console.log("Đã cập nhật thành công: ");
     } else {
         console.error('Hoc phi không tồn tại');
         throw new Error('Hoc phi không tồn tại');
     }
+
     return updateStatusStudent(newValue.student_id,newValue.paymentDeadline_id,newValue.price)
 }   
  
