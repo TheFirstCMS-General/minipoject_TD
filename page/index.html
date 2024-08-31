@@ -222,7 +222,6 @@
         let formattedDate = formatDate(dates)
         id =student.id;
         let color = await checkDatePayment(JSON.stringify(student))
-        console.log(i+": "+color)
 
         let row = `<tr style="background-color: ${color}">
           <th scope="row">${i + 1}</th>
@@ -370,7 +369,7 @@ function searchPro() {
   }
   fetch(path)
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
       const tableData = document.getElementById('studentList');
       tableData.innerHTML = ''; 
       for (let i = 0; i < data.length; i++) {
@@ -378,11 +377,12 @@ function searchPro() {
         let date = new Date(student.dob);
         let formattedDob = formatDate(date)
 
+        let color = await checkDatePayment(JSON.stringify(student))
 
         let dates = new Date(student.paymentDate);
         let formattedDate = formatDate(dates)
         // id =student.id
-        let row = `<tr>
+         let row = `<tr style="background-color: ${color}">
           <th scope="row">${i + 1}</th>
           <td>${student.name}</td>
           <td>${student.gender}</td>
