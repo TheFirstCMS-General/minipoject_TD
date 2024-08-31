@@ -225,15 +225,15 @@
               document.querySelector('input[name="oldName"]').value = detailFee.name
               document.querySelector('input[name="newPrice"]').value = detailFee.price
               document.querySelector('input[name="newDeadline"]').value = detailFee.deadLine
-              document.querySelector('input[name="oldFee_id"]').value = detailFee.id
+              document.querySelector('input[name="oldFee_id"]').value = detailFee.fee_id
             }
           }
 
       async function updateDetailFee(){
         let formValue =formToObject("#updateForm")
         
-        formValue.id = parseInt(formValue.old_id)
-        formValue.fee_id = parseInt(formValue.oldFee_id)
+        formValue.old_id = parseInt(formValue.old_id)
+        formValue.oldFee_id = parseInt(formValue.oldFee_id)
         formValue.price = parseInt(formValue.newPrice)
         try {
             const response = await fetch('http://localhost:3000/updatePaymentDeadline', {

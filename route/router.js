@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const { getStudent,addStudent,deleteStudentById,exportExcel,importData , updateStudent,searchStudentByName,sortStudentByDate,searchStudentByPrice,searchStudentByPaymentDate } = require('../service/studentService.js');
 const { getFee,addFee, deleteFee , updateFee} = require('../service/feeService.js');
 const { getPaymentDeadline, addPaymentDeadline,deletePaymentDeadlineById,updatePaymentDeadline } = require('../service/paymentDeadline.js');
-const { getAllPaymentDeadline_student, addPaymentDeadline_student } = require('../service/paymentDeadline_student.js');
+const { getAllPaymentDeadline_student, addPaymentDeadline_student, updatePaymentDeadline_student } = require('../service/paymentDeadline_student.js');
 
 const app = express();
 const PORT = 3000;
@@ -231,11 +231,21 @@ app.get('/getAllPaymentDeadline_student/:student_id', async (req, res) => {
 app.post('/addPaymentDeadline_student', async (req, res) => {
     try {
         const paymentDeadline_student = req.body;
-        await addPaymentDeadline_student(paymentDeadline_student);
-        res.status(200).send('Thêm thành công!');
+        let msg = await addPaymentDeadline_student(paymentDeadline_student);
+        res.status(200).json({ message: 'Thêm thành công!', data: msg });
     } catch (err) {
         console.error('Error adding student:', err);
         res.status(500).send('Có lỗi xảy ra khi thêm .');
+    }
+});
+app.put('/updatePaymentDeadline_student', async (req, res) => {
+    try {
+        const newValue = req.body;
+        let msg = await updatePaymentDeadline_student(newValue);
+        res.status(200).json({ message: 'Dong hoc phi thành công!', data: msg });
+    } catch (err) {
+        console.error('Error updating student:', err);
+        res.status(500).send('Có lỗi xảy ra khi cập nhật.');
     }
 });
 

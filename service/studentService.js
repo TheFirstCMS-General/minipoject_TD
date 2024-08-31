@@ -11,7 +11,7 @@ const upload = multer({ dest: 'uploads/' });
 
 
 async function getStudent() {
-    const jsonFilePath = path.join(__dirname, pathStudentJson);
+    const jsonFilePath = path.join(__dirname, "../dao/student.json");
 
     try {
         const data = await fs.readFile(jsonFilePath, 'utf8');

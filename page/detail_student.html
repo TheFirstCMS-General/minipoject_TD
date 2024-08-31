@@ -204,10 +204,9 @@
             },
             body: JSON.stringify(formValue)
           });
-              
+          const data = await response.json();
           if (response.ok) {
-            alert('Thêm thành công!');
-            $('#exampleModal').modal('hide');
+            window.location.href = `/page/detail_student.html?student=${JSON.stringify(data.data)}`;
           } else {
             alert('Có lỗi xảy ra khi thêm');
           }
@@ -226,14 +225,13 @@
                 tableData.innerHTML = '';
                 for (let i = 0; i < data.length; i++) {
                     let valueDate = data[i];
-                    id = valueDate.id
-                    let row = `<tr>
+                    let row = `<tr >
                               <th scope="row">${i+1}</th>
                               <td>${valueDate.name}</td>
                               <td>${formatCurrency(valueDate.price)}
                                 </td>
                               <td>
-                                <select name="status" id="selectStatus" class="form-control">
+                                  <select name="status" id="selectStatus_${i+1}" class="form-control" onchange='updatePaymentDeadline_student(${JSON.stringify(valueDate)},${i+1})'>
                                     <option value="">${valueDate.status}</option>
                                     <option value="Đã hoàn thành">Đã hoàn thành</option>
                                   </select>
@@ -241,36 +239,62 @@
                           </tr>`;
                     tableData.innerHTML += row;
                 }
-                document.querySelector('input[name="id"]').value = id+1
-                document.querySelector('input[name="name"]').value = id+1
             })
             .catch(error => console.error('Error fetching JSON:', error));
       }
-      async function saveDetailFee(){
-              let formValue =formToObject("#detailFeeForm")
-              formValue.id = parseInt(formValue.id)
-              formValue.fee_id = parseInt(formValue.fee_id)
-              formValue.price = parseInt(formValue.price)
-              try {
-                  const response = await fetch('http://localhost:3000/addPaymentDeadlain', {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify(formValue)
-                  });
+      // async function saveDetailFee(){
+      //         let formValue =formToObject("#detailFeeForm")
+      //         formValue.id = parseInt(formValue.id)
+      //         formValue.fee_id = parseInt(formValue.fee_id)
+      //         formValue.price = parseInt(formValue.price)
+      //         try {
+      //             const response = await fetch('http://localhost:3000/addPaymentDeadlain', {
+      //                 method: 'POST',
+      //                 headers: {
+      //                     'Content-Type': 'application/json'
+      //                 },
+      //                 body: JSON.stringify(formValue)
+      //             });
               
-                  if (response.ok) {
-                      alert('Dot dong đã được thêm thành công!');
-                      $('#exampleModal').modal('hide');
-                  } else {
+      //             if (response.ok) {
+      //                 alert('Dot dong đã được thêm thành công!'); 
+      //             } else {
+      //                 alert('Có lỗi xảy ra khi thêm');
+      //             }
+      //         } catch (error) {
+      //             console.error(error);
+      //         }
+      //       }
+            renderPaymentDeadline()
+
+            async function updatePaymentDeadline_student(data,i) {
+              let student_id = document.querySelector('input[name="id"]').value
+              let status = document.getElementById(`selectStatus_${i}`).value
+              let formValue = {
+                paymentDeadline_id : parseInt(data.paymentDeadline_id),
+                student_id : parseInt(student_id),
+                status : status,
+                price : data.price
+              }
+              
+              try {
+                    const response = await fetch('http://localhost:3000/updatePaymentDeadline_student', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formValue)
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                      window.location.href = `/page/detail_student.html?student=${JSON.stringify(data.data)}`;
+                    } else {
                       alert('Có lỗi xảy ra khi thêm');
-                  }
-              } catch (error) {
-                  console.error(error);
+                    }
+                } catch (error) {
+                    console.error(error);
               }
             }
-            renderPaymentDeadline()
     </script>
   
 </body>

@@ -43,7 +43,7 @@ async function addPaymentDeadline(paymentDeadline, fee_id) {
 async function deletePaymentDeadlineById(id) {
     try {
         const jsonFilePath = path.join(__dirname, pathJson);
-        let arraypaymentDeadline = await getPaymentDeadline();
+        let arraypaymentDeadline = await getAll();
         const updatedpaymentDeadlines = arraypaymentDeadline.filter(paymentDeadline => paymentDeadline.id !== parseInt(id));
         await fs.writeFile(
             jsonFilePath,
@@ -58,7 +58,7 @@ async function deletePaymentDeadlineById(id) {
 
 async function updatePaymentDeadline(newpaymentDeadline) {
     let arraypaymentDeadline = await getAll(); 
-    const index = arraypaymentDeadline.findIndex(obj => obj.id === newpaymentDeadline.id);
+    const index = arraypaymentDeadline.findIndex(obj => obj.id === newpaymentDeadline.old_id);
 
     if (index !== -1) {
         arraypaymentDeadline[index].deadline = newpaymentDeadline.newDeadline

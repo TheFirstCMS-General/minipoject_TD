@@ -1,11 +1,31 @@
 [
   {
+    "id": 2,
+    "name": "user",
+    "price": 342342,
+    "paymentDate": "2024-08-04",
+    "dob": "2024-07-30",
+    "address": "fsdfs",
+    "gender": "Nam",
+    "status": "Chưa hoàn thành"
+  },
+  {
+    "id": 4,
+    "name": "DXT",
+    "price": 235,
+    "status": "Chưa hoàn thành",
+    "date": "",
+    "dob": "2024-08-30",
+    "address": "32333",
+    "gender": "Nam"
+  },
+  {
     "id": 7,
     "name": "nhat minh",
     "price": 1700000,
     "status": "Chưa hoàn thành",
-    "date": "",
-    "dob": "",
+    "paymentDate": "2024-08-30",
+    "dob": "2003-5-15",
     "address": "Đan Phương",
     "gender": "Nam"
   },
@@ -24,7 +44,7 @@
     "name": "thai duong",
     "gender": "Nam",
     "price": 500000,
-    "status": "Chưa hoàn thành",
+    "status": "Đã hoàn thành",
     "paymentDate": "2024-07-21",
     "dob": "2003-1-5",
     "address": "Đan Phương"
@@ -32,30 +52,10 @@
   {
     "id": 5,
     "name": "cvd",
-    "price": 235,
+    "price": 73997232,
     "paymentDate": "2024-08-14",
     "dob": "2024-08-02",
     "address": "ưerdhftjgh",
-    "gender": "Nam",
-    "status": "Chưa hoàn thành"
-  },
-  {
-    "id": 4,
-    "name": "DXT",
-    "price": 235,
-    "dob": "2024-08-30",
-    "paymentDate": "2024-07-11",
-    "address": "3233",
-    "gender": "Nam",
-    "status": "Đã hoàn thành"
-  },
-  {
-    "id": 2,
-    "name": "user",
-    "price": 342342,
-    "paymentDate": "2024-08-04",
-    "dob": "2024-07-30",
-    "address": "fsdfs",
     "gender": "Nam",
     "status": "Đã hoàn thành"
   }
