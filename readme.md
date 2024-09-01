@@ -1,3 +1,3 @@
-tech stack: js, html, css, nodejs, bootstrap
-store data in json file
-tool code: visual studio code
+1. tech stack: js, html, css, nodejs, bootstrap. 
+2. store data in json file. 
+3. tool code: visual studio code. 
